@@ -10,16 +10,21 @@ async function sendMessage(){
     //lisätään viesti chatboksiin
     addMessageToChatbox(userInput);
 
-    //tähän tulee POST-rajanpinnan pyyntö!
-   const response = await fetch('/get-question',{
-        method:'POST',
-        headers:{
-            'Content-Type':'application/json'
-        },
-        body: JSON.stringify({question: userInput})
-    });
-    const data = await response.json();
-    console.log(data);
+    try{
+  //tähän tulee POST-rajanpinnan pyyntö!
+  const response = await fetch('/get-question',{
+    method:'POST',
+    headers:{
+        'Content-Type':'application/json'
+    },
+    body: JSON.stringify({question: userInput})
+});
+const data = await response.json();
+console.log(data);
+    }catch(error){
+        console.error('Error:', error);
+        addMessageToChatbox('Jotain meni pieleen yritä myöhemmin uudelleen');
+    }
 
     //tyhjennetän tekstikenttä
     document.getElementById('user-input').value = '';
